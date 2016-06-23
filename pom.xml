@@ -50,7 +50,7 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.17</version>
         <configuration>
-          <configLocation>https://raw.githubusercontent.com/my-community/security-api/development/checkstyle.xml?token=AAlQn084Qlo74pP9dgUqQfAwR_mm7cqcks5XcsUGwA%3D%3D</configLocation>
+          <configLocation>https://raw.githubusercontent.com/my-community/parent/development/checkstyle.xml?token=AAlQn6ACgiAeI6Fgdr0hD7oS8WoAjHMBks5XdVEuwA%3D%3D</configLocation>
           <encoding>UTF-8</encoding>
           <consoleOutput>true</consoleOutput>
           <failOnViolation>false</failOnViolation>
