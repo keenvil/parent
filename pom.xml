@@ -120,6 +120,16 @@
                     <value>COVEREDRATIO</value>
                     <minimum>0.60</minimum>
                   </limit>
+                  <limit>
+                    <counter>CLASS</counter>
+                    <value>MISSEDCOUNT</value>
+                    <maximum>0</maximum>
+                  </limit>
+                   <limit implementation="org.jacoco.report.check.Limit">
+                    <counter>CLASS</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.75</minimum>
+                  </limit>
                 </limits>
               </rule>
             </rules>
