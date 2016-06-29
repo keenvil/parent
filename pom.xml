@@ -109,13 +109,13 @@
             <goal>check</goal>
           </goals>
           <configuration>
-            <excludes>
-              <exclude>**/*Application.*</exclude>
-            </excludes>
             <rules>
               <!--  implementation is needed only for Maven 2  -->
               <rule implementation="org.jacoco.maven.RuleConfiguration">
                 <element>CLASS</element>
+                <excludes>
+                  <exclude>**/*Application.*</exclude>
+                </excludes>
                 <limits>
                   <!--  implementation is needed only for Maven 2  -->
                   <limit implementation="org.jacoco.report.check.Limit">
