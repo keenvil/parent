@@ -119,6 +119,8 @@
                     <exclude>*Type</exclude>
                     <exclude>*ExceptionHandler</exclude>
                     <exclude>*Response</exclude>
+                    <exclude>*Configuration</exclude>
+                    <exclude>*Config</exclude>
                   </excludes>
                 <limits>
                   <!--  implementation is needed only for Maven 2  -->
