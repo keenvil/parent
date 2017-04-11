@@ -153,6 +153,7 @@
                     <exclude>*Response</exclude>
                     <exclude>*Configuration</exclude>
                     <exclude>*Config</exclude>
+                    <exclude>*ControllerAdvice</exclude>
                   </excludes>
                 <limits>
                   <!--  implementation is needed only for Maven 2  -->
