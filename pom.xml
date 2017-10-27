@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -24,9 +24,87 @@
     <restassured.version>2.9.0</restassured.version>
     <gson.version>2.6.2</gson.version>
     <easymock.version>3.3</easymock.version>
+    <commons-lang3.version>3.4</commons-lang3.version>
+    <commons-codec.version>1.6</commons-codec.version>
+    <validation-api.version>1.1.0.Final</validation-api.version>
+    <hibernate-validator.version>5.4.2.Final</hibernate-validator.version>
+    <hikaricp.version>2.7.2</hikaricp.version>
+    <liquibase.version>3.5.3</liquibase.version>
+    <spring.version>4.3.12.RELEASE</spring.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
+        <version>${liquibase.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>${hikaricp.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-mapper-asl</artifactId>
+        <version>1.9.13</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk</artifactId>
+        <version>1.11.10</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.twilio.sdk</groupId>
+        <artifactId>twilio</artifactId>
+        <version>7.11.0</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+
   <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!-- Commons Utilities -->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${commons-codec.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>${validation-api.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -39,6 +117,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jersey</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-actuator</artifactId>
     </dependency>
 
     <!-- Testing -->
@@ -142,8 +225,7 @@
           </goals>
           <configuration>
             <rules>
-              <!--  implementation is needed only for Maven 2  -->
-              <rule implementation="org.jacoco.maven.RuleConfiguration">
+              <rule>
                 <element>CLASS</element>
                   <excludes>
                     <exclude>*Application</exclude>
@@ -157,8 +239,7 @@
                     <exclude>*Properties</exclude>
                   </excludes>
                 <limits>
-                  <!--  implementation is needed only for Maven 2  -->
-                  <limit implementation="org.jacoco.report.check.Limit">
+                  <limit>
                     <counter>COMPLEXITY</counter>
                     <value>COVEREDRATIO</value>
                     <minimum>0.60</minimum>
@@ -168,7 +249,7 @@
                     <value>MISSEDCOUNT</value>
                     <maximum>0</maximum>
                   </limit>
-                   <limit implementation="org.jacoco.report.check.Limit">
+                   <limit>
                     <counter>CLASS</counter>
                     <value>COVEREDRATIO</value>
                     <minimum>0.75</minimum>
