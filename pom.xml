@@ -30,6 +30,7 @@
     <hibernate-validator.version>5.4.2.Final</hibernate-validator.version>
     <hikaricp.version>2.7.2</hikaricp.version>
     <liquibase.version>3.5.3</liquibase.version>
+    <jjwt.version>0.6.0</jjwt.version>
     <spring.version>4.3.12.RELEASE</spring.version>
   </properties>
 
@@ -65,6 +66,12 @@
         <version>7.11.0</version>
       </dependency>
 
+      <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>${jjwt.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -75,6 +82,7 @@
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
