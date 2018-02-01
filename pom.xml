@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.keenvil.parent</groupId>
+  <artifactId>parent</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>parent</name>
+  <description>Baseline Parent POM</description>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.9.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+    <restassured.version>2.9.0</restassured.version>
+    <gson.version>2.6.2</gson.version>
+    <easymock.version>3.3</easymock.version>
+    <commons-lang3.version>3.4</commons-lang3.version>
+    <commons-codec.version>1.6</commons-codec.version>
+    <validation-api.version>1.1.0.Final</validation-api.version>
+    <hibernate-validator.version>5.4.2.Final</hibernate-validator.version>
+    <hikaricp.version>2.7.4</hikaricp.version>
+    <liquibase.version>3.5.3</liquibase.version>
+    <jjwt.version>0.6.0</jjwt.version>
+    <spring.version>4.3.12.RELEASE</spring.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
+        <version>${liquibase.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>${hikaricp.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-mapper-asl</artifactId>
+        <version>1.9.13</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk</artifactId>
+        <version>1.11.10</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.twilio.sdk</groupId>
+        <artifactId>twilio</artifactId>
+        <version>7.17.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>${jjwt.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!-- Commons Utilities -->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>${commons-codec.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>${validation-api.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jetty</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jersey</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-actuator</artifactId>
+    </dependency>
+
+    <!-- Testing -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>${easymock.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>${gson.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${restassured.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.17</version>
+        <configuration>
+          <configLocation>https://raw.githubusercontent.com/keenvil/checkstyle/master/checkstyle.xml</configLocation>
+          <encoding>UTF-8</encoding>
+          <consoleOutput>true</consoleOutput>
+          <failOnViolation>false</failOnViolation>
+          <failsOnError>false</failsOnError>
+          <linkXRef>false</linkXRef>
+        </configuration>
+        <executions>
+          <execution>
+           <id>validate</id>
+           <phase>validate</phase>
+           <goals>
+             <goal>check</goal>
+           </goals>
+         </execution>
+       </executions>
+       <dependencies>
+        <dependency>
+          <groupId>com.puppycrawl.tools</groupId>
+          <artifactId>checkstyle</artifactId>
+          <version>6.19</version>
+        </dependency>
+      </dependencies>
+    </plugin>
+    <plugin>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.7.7.201606060606</version>
+      <executions>
+        <execution>
+          <id>default-prepare-agent</id>
+          <goals>
+            <goal>prepare-agent</goal>
+          </goals>
+        </execution>
+        <execution>
+          <id>default-prepare-agent-integration</id>
+          <goals>
+            <goal>prepare-agent-integration</goal>
+          </goals>
+        </execution>
+        <execution>
+          <id>default-report</id>
+          <goals>
+            <goal>report</goal>
+          </goals>
+        </execution>
+        <execution>
+          <id>default-report-integration</id>
+          <goals>
+            <goal>report-integration</goal>
+          </goals>
+        </execution>
+        <execution>
+          <id>default-check</id>
+          <goals>
+            <goal>check</goal>
+          </goals>
+          <configuration>
+            <rules>
+              <rule>
+                <element>CLASS</element>
+                  <excludes>
+                    <exclude>*Application</exclude>
+                    <exclude>*Dto</exclude>
+                    <exclude>*Type</exclude>
+                    <exclude>*ExceptionHandler</exclude>
+                    <exclude>*Response</exclude>
+                    <exclude>*Configuration</exclude>
+                    <exclude>*Config</exclude>
+                    <exclude>*ControllerAdvice</exclude>
+                    <exclude>*Properties</exclude>
+                  </excludes>
+                <limits>
+                  <limit>
+                    <counter>COMPLEXITY</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.60</minimum>
+                  </limit>
+                  <limit>
+                    <counter>CLASS</counter>
+                    <value>MISSEDCOUNT</value>
+                    <maximum>0</maximum>
+                  </limit>
+                   <limit>
+                    <counter>CLASS</counter>
+                    <value>COVEREDRATIO</value>
+                    <minimum>0.75</minimum>
+                  </limit>
+                </limits>
+              </rule>
+            </rules>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>2.20.1</version>
+      <configuration>
+        <excludes>
+          <exclude>**/*IntegrationTest.java</exclude>
+        </excludes>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-failsafe-plugin</artifactId>
+      <version>2.20.1</version>
+      <configuration>
+        <includes>
+          <include>**/*IntegrationTest.java</include>
+        </includes>
+      </configuration>
+      <executions>
+        <execution>
+          <id>default-integration-test</id>
+          <goals>
+            <goal>verify</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+
+<distributionManagement>
+  <snapshotRepository>
+    <id>nexus-snapshots</id>
+    <url>http://nexus.int.myaws.io:8081/repository/maven-snapshots/</url>
+  </snapshotRepository>
+</distributionManagement>
+
+<repositories>
+  <repository>
+    <id>myco</id>
+    <url>http://nexus.int.myaws.io:8081/repository/maven-public/</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+
+  <repository>
+    <id>jcenter-snapshots</id>
+    <name>jcenter</name>
+    <url>https://jcenter.bintray.com/</url>
+  </repository>
+</repositories>
+
+<reporting>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-checkstyle-plugin</artifactId>
+      <version>2.17</version>
+      <reportSets>
+        <reportSet>
+          <reports>
+            <report>checkstyle</report>
+          </reports>
+        </reportSet>
+      </reportSets>
+    </plugin>
+  </plugins>
+</reporting>
+
+</project>
