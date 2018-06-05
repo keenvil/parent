@@ -32,6 +32,7 @@
     <liquibase.version>3.5.3</liquibase.version>
     <jjwt.version>0.6.0</jjwt.version>
     <spring.version>4.3.12.RELEASE</spring.version>
+    <sentry.version>1.7.5</sentry.version>
   </properties>
 
   <dependencyManagement>
@@ -159,6 +160,11 @@
       <artifactId>rest-assured</artifactId>
       <version>${restassured.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.sentry</groupId>
+      <artifactId>sentry-spring</artifactId>
+      <version>${sentry.version}</version>
     </dependency>
   </dependencies>
 
