@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.9.RELEASE</version>
+    <version>2.0.4.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -24,14 +24,14 @@
     <restassured.version>2.9.0</restassured.version>
     <gson.version>2.6.2</gson.version>
     <easymock.version>3.3</easymock.version>
-    <commons-lang3.version>3.4</commons-lang3.version>
+    <commons-lang3.version>3.8.1</commons-lang3.version>
     <commons-codec.version>1.6</commons-codec.version>
-    <validation-api.version>1.1.0.Final</validation-api.version>
-    <hibernate-validator.version>5.4.2.Final</hibernate-validator.version>
+    <validation-api.version>2.0.1.Final</validation-api.version>
+    <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
     <hikaricp.version>2.7.4</hikaricp.version>
     <liquibase.version>3.5.3</liquibase.version>
-    <jjwt.version>0.6.0</jjwt.version>
-    <spring.version>4.3.12.RELEASE</spring.version>
+    <jjwt.version>0.9.1</jjwt.version>
+    <spring.version>5.1.1.RELEASE</spring.version>
     <sentry.version>1.7.5</sentry.version>
   </properties>
 
