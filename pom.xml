@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>3.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -37,6 +37,8 @@
     <spring.version>5.1.6.RELEASE</spring.version>
     <sentry.version>1.7.22</sentry.version>
     <kotlin.version>1.3.30</kotlin.version>
+    <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+
   </properties>
 
   <dependencyManagement>
@@ -78,6 +80,14 @@
         <version>${jjwt.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -93,6 +103,17 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
       <version>${spring.version}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-sleuth</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-zipkin</artifactId>
     </dependency>
 
     <!-- Commons Utilities -->
