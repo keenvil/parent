@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>3.0.3-SNAPSHOT</version>
+  <version>3.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -334,7 +334,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.10.1</version>
         <executions>
           <!-- Replacing default-compile as it is treated specially by maven -->
           <execution>
@@ -361,7 +361,7 @@
     <plugin>
       <groupId>org.jacoco</groupId>
       <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.2</version>
+      <version>0.8.7</version>
       <executions>
         <execution>
           <id>default-prepare-agent</id>
@@ -433,7 +433,7 @@
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-surefire-plugin</artifactId>
-      <version>2.22.1</version>
+      <version>3.0.0-M5</version>
       <configuration>
         <excludes>
           <exclude>**/*IntegrationTest.java</exclude>
@@ -443,7 +443,7 @@
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-failsafe-plugin</artifactId>
-      <version>2.20.1</version>
+      <version>3.0.0-M5</version>
       <configuration>
         <includes>
           <include>**/*IntegrationTest.java</include>
@@ -492,7 +492,7 @@
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-checkstyle-plugin</artifactId>
-      <version>2.17</version>
+      <version>3.1.2</version>
       <reportSets>
         <reportSet>
           <reports>
