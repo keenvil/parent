@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>4.0.4</version>
+  <version>4.0.5</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -371,7 +371,7 @@
         <version>3.3.0</version>
         <configuration>
           <excludes>
-            <exclude>**/*IntegrationTest.java</exclude>
+            <exclude>**/*IT.java</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -379,9 +379,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>3.3.0</version>
+        <!-- Antes decia **/*IntegrationTest.java: ningun repo usa ese sufijo, la
+             convencion real (19 clases en 8 repos) es *IT.java, asi que Failsafe
+             corria sus goals sin matchear nunca un solo archivo real. -->
         <configuration>
           <includes>
-            <include>**/*IntegrationTest.java</include>
+            <include>**/*IT.java</include>
           </includes>
         </configuration>
         <executions>
