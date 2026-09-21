@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>4.0.3</version>
+  <version>4.0.4</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -290,6 +290,21 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.12</version>
+        <!--
+          default-report y default-check no tenian fase explicita, asi que corrian con el
+          binding default del goal, que es "verify". Ningun repo de la flota invoca "mvn verify"
+          en CI ni en local (todos usan "mvn test"), asi que el reporte nunca se generaba y el
+          gate de abajo nunca corria, pese a estar configurado. Se agrega fase "test" a
+          default-report para que el reporte se genere de verdad bajo "mvn test".
+
+          default-check queda deshabilitado (movido a fase "none") a proposito, no borrado:
+          medido 2026-09-21 con jacoco:report standalone, la cobertura real de instrucciones
+          esta lejos del 75% de CLASS que este rule exige incluso en el repo con mas tests de la
+          flota (community-api, 512 tests, ~41%; dahua-api ~16%; newcommunity-api ~41%).
+          Activarlo tal cual esta ahora rompería CI/deploys en casi todos los repos. Queda la
+          config completa para reactivarlo mas adelante con un piso realista una vez que la
+          cobertura suba.
+        -->
         <executions>
           <execution>
             <id>default-prepare-agent</id>
@@ -301,6 +316,7 @@
           </execution>
           <execution>
             <id>default-report</id>
+            <phase>test</phase>
             <goals><goal>report</goal></goals>
           </execution>
           <execution>
@@ -309,6 +325,7 @@
           </execution>
           <execution>
             <id>default-check</id>
+            <phase>none</phase>
             <goals><goal>check</goal></goals>
             <configuration>
               <rules>
