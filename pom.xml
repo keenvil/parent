@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>4.1.0</version>
+  <version>4.2.0</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -21,6 +21,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>21</java.version>
+    <surefire.skip>false</surefire.skip>
     <kotlin.version>1.9.25</kotlin.version>
     <spring-cloud.version>2025.0.3</spring-cloud.version>
 
@@ -339,7 +340,27 @@
           Activarlo tal cual esta ahora rompería CI/deploys en casi todos los repos. Queda la
           config completa para reactivarlo mas adelante con un piso realista una vez que la
           cobertura suba.
+
+          4.2.0 (21/10/2026, [TEST-COVERAGE-70] etapa 1, medir): el CI corre "mvn test" y despues
+          "mvn verify -Dsurefire.skip=true" (IT con Testcontainers), cada uno con su .exec. Se
+          agregan merge (post-integration-test) y report-merged (verify) para tener un solo
+          numero con unitarios + IT en target/site/jacoco-merged/jacoco.csv; sin IT queda
+          target/site/jacoco/jacoco.csv. Las exclusiones de abajo valen para todos los reportes:
+          codigo sin logica propia (arranque, configuracion, DTO) y generado (jOOQ, MapStruct).
+          Las entidades NO se excluyen: varias tienen logica (p.ej. Account.reactivate).
+          Un servicio que necesite excluir algo mas lo agrega en su pom con
+          combine.children="append" y lo documenta ahi.
         -->
+        <configuration>
+          <excludes>
+            <exclude>**/*Application.class</exclude>
+            <exclude>**/config/**</exclude>
+            <exclude>**/dto/**</exclude>
+            <exclude>**/*MapperImpl.class</exclude>
+            <exclude>**/jooq/**</exclude>
+            <exclude>**/generated/**</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <id>default-prepare-agent</id>
@@ -357,6 +378,32 @@
           <execution>
             <id>default-report-integration</id>
             <goals><goal>report-integration</goal></goals>
+          </execution>
+          <execution>
+            <id>merge-unit-and-it</id>
+            <phase>post-integration-test</phase>
+            <goals><goal>merge</goal></goals>
+            <configuration>
+              <fileSets>
+                <fileSet>
+                  <directory>${project.build.directory}</directory>
+                  <includes>
+                    <include>jacoco.exec</include>
+                    <include>jacoco-it.exec</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+              <destFile>${project.build.directory}/jacoco-merged.exec</destFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>report-merged</id>
+            <phase>verify</phase>
+            <goals><goal>report</goal></goals>
+            <configuration>
+              <dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco-merged</outputDirectory>
+            </configuration>
           </execution>
           <execution>
             <id>default-check</id>
@@ -405,6 +452,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.3.0</version>
         <configuration>
+          <!-- El CI corre "mvn verify -Dsurefire.skip=true" para los IT, pero Surefire no conoce esa
+               propiedad y repetia todos los unitarios. Se mapea aca (4.2.0). -->
+          <skipTests>${surefire.skip}</skipTests>
           <excludes>
             <exclude>**/*IT.java</exclude>
           </excludes>
