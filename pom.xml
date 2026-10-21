@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>4.0.5</version>
+  <version>4.2.0</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -14,17 +14,26 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.12</version>
+    <version>3.5.16</version>
     <relativePath/>
   </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>21</java.version>
+    <surefire.skip>false</surefire.skip>
     <kotlin.version>1.9.25</kotlin.version>
-    <spring-cloud.version>2023.0.3</spring-cloud.version>
+    <spring-cloud.version>2025.0.3</spring-cloud.version>
 
-    <!-- Managed versions not covered by SB 3.3.x BOM -->
+    <!-- Parches de seguridad por encima del BOM de Spring Boot 3.5.x (REPORTE_VULNERABILIDADES_20260928.md).
+         jackson-bom y rabbit-amqp-client son propiedades del BOM de Boot: se pisan aca para toda la flota. -->
+    <jackson-bom.version>2.21.7</jackson-bom.version>
+    <rabbit-amqp-client.version>5.34.0</rabbit-amqp-client.version>
+    <bouncycastle.version>1.85</bouncycastle.version>
+    <commons-fileupload.version>1.6.0</commons-fileupload.version>
+    <commons-io.version>2.22.0</commons-io.version>
+
+    <!-- Managed versions not covered by SB 3.5.x BOM -->
     <liquibase.version>4.27.0</liquibase.version>
     <aws.version>1.12.765</aws.version>
     <twilio-sdk.version>10.1.0</twilio-sdk.version>
@@ -44,6 +53,33 @@
         <version>${spring-cloud.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+
+      <!-- bcprov/bcpkix/bcutil llegan por spring-cloud-starter-openfeign -> spring-security-rsa -->
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk18on</artifactId>
+        <version>${bouncycastle.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcpkix-jdk18on</artifactId>
+        <version>${bouncycastle.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcutil-jdk18on</artifactId>
+        <version>${bouncycastle.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>${commons-fileupload.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons-io.version}</version>
       </dependency>
 
       <dependency>
@@ -304,7 +340,27 @@
           Activarlo tal cual esta ahora rompería CI/deploys en casi todos los repos. Queda la
           config completa para reactivarlo mas adelante con un piso realista una vez que la
           cobertura suba.
+
+          4.2.0 (21/10/2026, [TEST-COVERAGE-70] etapa 1, medir): el CI corre "mvn test" y despues
+          "mvn verify -Dsurefire.skip=true" (IT con Testcontainers), cada uno con su .exec. Se
+          agregan merge (post-integration-test) y report-merged (verify) para tener un solo
+          numero con unitarios + IT en target/site/jacoco-merged/jacoco.csv; sin IT queda
+          target/site/jacoco/jacoco.csv. Las exclusiones de abajo valen para todos los reportes:
+          codigo sin logica propia (arranque, configuracion, DTO) y generado (jOOQ, MapStruct).
+          Las entidades NO se excluyen: varias tienen logica (p.ej. Account.reactivate).
+          Un servicio que necesite excluir algo mas lo agrega en su pom con
+          combine.children="append" y lo documenta ahi.
         -->
+        <configuration>
+          <excludes>
+            <exclude>**/*Application.class</exclude>
+            <exclude>**/config/**</exclude>
+            <exclude>**/dto/**</exclude>
+            <exclude>**/*MapperImpl.class</exclude>
+            <exclude>**/jooq/**</exclude>
+            <exclude>**/generated/**</exclude>
+          </excludes>
+        </configuration>
         <executions>
           <execution>
             <id>default-prepare-agent</id>
@@ -322,6 +378,32 @@
           <execution>
             <id>default-report-integration</id>
             <goals><goal>report-integration</goal></goals>
+          </execution>
+          <execution>
+            <id>merge-unit-and-it</id>
+            <phase>post-integration-test</phase>
+            <goals><goal>merge</goal></goals>
+            <configuration>
+              <fileSets>
+                <fileSet>
+                  <directory>${project.build.directory}</directory>
+                  <includes>
+                    <include>jacoco.exec</include>
+                    <include>jacoco-it.exec</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+              <destFile>${project.build.directory}/jacoco-merged.exec</destFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>report-merged</id>
+            <phase>verify</phase>
+            <goals><goal>report</goal></goals>
+            <configuration>
+              <dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco-merged</outputDirectory>
+            </configuration>
           </execution>
           <execution>
             <id>default-check</id>
@@ -370,6 +452,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.3.0</version>
         <configuration>
+          <!-- El CI corre "mvn verify -Dsurefire.skip=true" para los IT, pero Surefire no conoce esa
+               propiedad y repetia todos los unitarios. Se mapea aca (4.2.0). -->
+          <skipTests>${surefire.skip}</skipTests>
           <excludes>
             <exclude>**/*IT.java</exclude>
           </excludes>
