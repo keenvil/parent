@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>4.2.0</version>
+  <version>4.3.0</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -22,6 +22,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>21</java.version>
     <surefire.skip>false</surefire.skip>
+    <!-- Piso de cobertura de lineas (unit + IT) que exige check-merged; ver jacoco-maven-plugin. -->
+    <coverage.line.minimum>0.70</coverage.line.minimum>
     <kotlin.version>1.9.25</kotlin.version>
     <spring-cloud.version>2025.0.3</spring-cloud.version>
 
@@ -350,6 +352,12 @@
           Las entidades NO se excluyen: varias tienen logica (p.ej. Account.reactivate).
           Un servicio que necesite excluir algo mas lo agrega en su pom con
           combine.children="append" y lo documenta ahi.
+
+          4.3.0 (21/10/2026, [TEST-COVERAGE-70] etapa 2, exigir): check-merged corre en verify sobre
+          jacoco-merged.exec y falla el build si la cobertura de lineas del bundle baja de
+          coverage.line.minimum (0.70). Al 21/10 los 8 servicios que miden estan entre 71.8% y 93.9%.
+          Bajo "mvn test" no corre (es verify) y sin jacoco-merged.exec JaCoCo lo saltea. Un servicio
+          que todavia no llega sobreescribe la property en su pom y lo documenta ahi.
         -->
         <configuration>
           <excludes>
@@ -403,6 +411,26 @@
             <configuration>
               <dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
               <outputDirectory>${project.reporting.outputDirectory}/jacoco-merged</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>check-merged</id>
+            <phase>verify</phase>
+            <goals><goal>check</goal></goals>
+            <configuration>
+              <dataFile>${project.build.directory}/jacoco-merged.exec</dataFile>
+              <rules>
+                <rule>
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>${coverage.line.minimum}</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
             </configuration>
           </execution>
           <execution>
