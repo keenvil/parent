@@ -5,7 +5,7 @@
 
   <groupId>com.keenvil.parent</groupId>
   <artifactId>parent</artifactId>
-  <version>5.0.0-rc.1</version>
+  <version>5.0.0-rc.2</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -37,7 +37,7 @@
     <aws.version>1.12.765</aws.version>
     <twilio-sdk.version>10.1.0</twilio-sdk.version>
     <jjwt.version>0.12.6</jjwt.version>
-    <restassured.version>5.4.0</restassured.version>
+    <restassured.version>6.3.0</restassured.version>
     <easymock.version>5.2.0</easymock.version>
   </properties>
 
