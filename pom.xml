@@ -51,6 +51,18 @@
         <scope>import</scope>
       </dependency>
 
+      <!-- AWS SDK v1 usa httpclient 4: Boot 4 ya no lo gestiona y Maven resolvia 4.5.5 -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.14</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore</artifactId>
+        <version>4.4.16</version>
+      </dependency>
+
       <!-- bcprov/bcpkix/bcutil llegan por spring-cloud-starter-openfeign -> spring-security-rsa -->
       <dependency>
         <groupId>org.bouncycastle</groupId>
